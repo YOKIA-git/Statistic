@@ -1,20 +1,22 @@
 library(tidyverse)
 library(cowplot)
 
+##ggplot 要素：data ； aesthetics 美学映射； Geometry objects 几何对象； theme adjustments 其他元素
 
+    
 ##---ggplot: data, aesthetics, geometric objects and others----------
 ## data
 ggplot(data = mtcars)
 
 ## data, aesthetics, geometric 
 ggplot(data = mtcars, aes(x = mpg)) +
-  geom_histogram(fill = 'grey', color = 'black', bins = 5) +
+  geom_histogram(fill = 'grey', color = 'black', bins = 5) +  #bins 是有几条，实际是分几组
   geom_density(color = 'red')
 
 ## data, aesthetics, geometric
 ggplot(data = mtcars, aes(x = mpg)) +
-  geom_histogram(aes(y = ..density..), fill = 'grey', color = 'black', bins =5) +
-  geom_density(color = 'red', lwd =1)
+  geom_histogram(aes(y = ..density..), fill = 'grey', color = 'black', bins =5) + #给直方图加和density一样的 y “标准化处理” 
+  geom_density(color = 'red', lwd =1) #？lwd是啥
 
 ## others
 ggplot(data = mtcars, aes(x = mpg)) +
@@ -53,12 +55,12 @@ fig1 <- ggplot(data = mtcars, aes(x = mpg)) +
 
 fig1
 
-ggsave("C:/Users/mi/SynologyDrive/Rclub/myfirstplot.pdf", fig1) 
+ggsave("E:\\L_R Language\\Statistic\\Visualization\\myfirstplot.pdf", fig1) 
 
 ## plot grid 1
 mtcars$am <- factor(mtcars$am, labels = c('Mannual', 'Automatic'))
 fig2 <- ggplot(data = mtcars, aes(y = mpg, x = am)) +
-  geom_boxplot() +
+  geom_boxplot() + #箱图
   ggtitle('Boxplot for Miles per Gallon \n By Transmisstion Type') +
   xlab('Transmission Types') +
   ylab('Miles per Gallon')
@@ -72,7 +74,7 @@ plot_grid(fig1, fig2, nrow = 2)
 fig3 <- ggplot(data = mtcars, aes(x = mpg)) +
   geom_histogram(aes(y = ..density..), fill = 'Green',
                  color = 'black', bins = 5) +
-  facet_grid(am ~ .) +
+  facet_grid(am ~ .) + #横坐标相同
   ggtitle('Histogram of Miles per Gallon \n By Transmission Type')
 fig3 
 
@@ -80,7 +82,7 @@ fig3
 fig4 <- ggplot(data = mtcars, aes(x = mpg)) +
   geom_histogram(aes(y = ..density..), fill = 'Green',
                  color = 'black', bins = 5)+
-  facet_grid(. ~ am) +
+  facet_grid(. ~ am) + #纵坐标相同
   ggtitle('Histogram of Miles per Gallon \n By Transmission Type')
 fig4
 
@@ -108,7 +110,7 @@ fig1 <- ggplot(data = mtcars, aes(x = mpg)) +
   ggtitle('Histogram of Miles per Gallon')
 fig1
 
-## boxplot
+## boxplot 箱图
 mtcars$type <- 'Automobiles'
 fig2 <- ggplot(data = mtcars, aes(y = mpg, type)) +
   geom_boxplot(fill = 'blue', color = 'black') + 
